@@ -28,7 +28,7 @@ class MatchResults(object):
     def to_csv(self, filename):
         headers = self.data[0].keys() if self.data else []
         with open(filename, 'wb') as out:
-            csv_writer = csv.DictWriter(out, headers=headers)
+            csv_writer = csv.DictWriter(out, fieldnames=headers)
             csv_writer.writeheader()
             csv_writer.writerows(self.data)
 
@@ -122,9 +122,12 @@ class ScreenshotScanner(object):
                 else:
                     opponent[point] = hero
 
-        p_points = sorted([hero for point, hero in player.iteritems()], key=lambda d: d[0])
-        o_points = sorted([hero for point, hero in opponent.iteritems()], key=lambda d: d[0])
+        p_points = [h[1] for h in sorted(player.iteritems(), key=lambda d: d[0])]
+        o_points = [h[1] for h in sorted(opponent.iteritems(), key=lambda d: d[0])]
+        # p_points = sorted([hero for point, hero in player.iteritems()], key=lambda d: player[d])
+        # o_points = sorted([hero for point, hero in opponent.iteritems()], key=lambda d: opponent[d])
 
+        print(p_points)
         return p_points, o_points
 
 
